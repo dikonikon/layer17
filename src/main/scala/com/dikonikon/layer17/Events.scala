@@ -1,4 +1,4 @@
-/**
- * Created by Dickon on 22/12/2014.
- */
+package com.dikonikon.layer17
+
+case class AddIPToDNS()
 
