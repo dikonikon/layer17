@@ -1,12 +1,14 @@
 package com.dikonikon.layer17
 
 import akka.actor.{ActorSystem, Props, ActorLogging, Actor}
+import akka.testkit._
+
 import scala.concurrent.duration._
 
 class NodeRootActor extends Actor with ActorLogging {
 
   def receive = {
-    case x => log.debug("received {0}", "nothing")
+    case x => log.debug(s"received $x")
   }
 }
 
@@ -29,8 +31,9 @@ object NodeStart {
     println("creating main actor")
     val mainActor = system.actorOf(Props[NodeRootActor])
     val probe = TestProbe()
-    mainActor ! AddIPToDNS()
-    system.awaitTermination(10.seconds)
+    probe.send(mainActor, AddIPToDNS())
+    probe.expectNoMsg(10.second)
+    system.shutdown()
   }
 }
 
